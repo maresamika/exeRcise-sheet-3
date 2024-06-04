@@ -60,11 +60,25 @@ a)  Download the data for both years and track it in git. For small datasets lik
 
 b)  Load the data for both years into R. Check the type of the count variable ("Anzahl") and look into the data to determine why it is not numeric? Fix the problem in an appropriate manner, it is OK if some of the counts are inaccurate because of this. Explain your solution and the repercussions.
 
+    For both datasets I choose to mutate the values of the column Anzahl, that are matching the string "4 oder weniger" to 4. Then I set the column to numeric.
+
+    Names that were counted 1,2 or 3 times are now tipping the scales as they are more weighted by being set to 4 instead of the correct amount. Since we don't know the exact numbers in the first place, the repercussions for working with this data are rather little.
+
     ```{r}
     library(tidyverse)
 
     vornamen_2022 <- read.csv(file.path('data', 'open_data_portal_2022.csv'))
     vornamen_2023 <- read.csv(file.path('data', 'vornamen-muenchen-2023.csv'))
+
+    #Anzahl is not numeric because of value "4 oder weniger"
+    vornamen_2022 <- vornamen_2022 %>% 
+      mutate(Anzahl = str_replace_all(Anzahl, "4 oder weniger", "4")) %>% 
+      mutate(Anzahl = as.numeric(Anzahl))
+    #same for vornamen_2023
+    vornamen_2023 <- vornamen_2023 %>% 
+      mutate(Anzahl = str_replace_all(Anzahl, "4 oder weniger", "4")) %>% 
+      mutate(Anzahl = as.numeric(Anzahl))
+
 
     ```
 
