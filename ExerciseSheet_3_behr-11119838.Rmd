@@ -30,7 +30,7 @@ d)  Name 2 strengths and 2 weaknesses of git. (Don't forget to create a commit a
 
     strength 1: it makes it easy to collaborate on a project with a team
 
-    strenght 2: it allows you to track the changes you made, which helps to resolve problems
+    strenght 2: it allows you to track the changes you've made, which helps to resolve problems
 
     weakness 1: when working with binary files problems will occur
 
@@ -43,7 +43,11 @@ e)  Knit this exercise sheet. Some new files will automatically be generated whe
 For this task you will upload your solution to GitHub.
 
 a)  Create a new repository on GitHub in your account named `exeRcise-sheet-3`. Make sure you create a **public repository** so we are able to see it for grading. Add the link to the repository below:
+
+    <https://github.com/maresamika/exeRcise-sheet-3>
+
 b)  Push your code to this new repository by copying and executing the snippet on github listed under `…or push an existing repository from the command line`.
+
 c)  Regularly push your latest changes to GitHub again and especially do so when you are finished with this sheet.
 
 ## Exercise 3: Baby-Names in Munich (3.5 Points)
@@ -58,12 +62,10 @@ b)  Load the data for both years into R. Check the type of the count variable ("
 
     ```{r}
     library(tidyverse)
-    vornamen_2022 <- read.csv(file.path('data', 'open_data_portal_2022.csv' ))
+
+    vornamen_2022 <- read.csv(file.path('data', 'open_data_portal_2022.csv'))
     vornamen_2023 <- read.csv(file.path('data', 'vornamen-muenchen-2023.csv'))
 
-    # non-numeric option in colum Anzahl: "4 oder weniger"
-    # change all of them to 4
-    str_replave
     ```
 
 c)  Calculate the total number of babies born in Munich in 2022 and 2023. Which year had the bigger baby-boom?
