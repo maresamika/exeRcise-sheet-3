@@ -84,6 +84,13 @@ b)  Load the data for both years into R. Check the type of the count variable ("
 
 c)  Calculate the total number of babies born in Munich in 2022 and 2023. Which year had the bigger baby-boom?
 
+    the year 2022 had the bigger baby boom.
+
+    ```{r}
+    sum(vornamen_2022$Anzahl)
+    sum(vornamen_2023$Anzahl)
+    ```
+
 d)  Add a new column `year` to both datasets which holds the correct year for each.
 
 e)  Combine both datasets into one using `bind_rows()`.
