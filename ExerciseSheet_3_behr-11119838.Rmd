@@ -109,15 +109,17 @@ e)  Combine both datasets into one using `bind_rows()`.
 f)  Combine the counts for same names to determine the most popular names across both years. Print out the top 10 names in a nicely formatted table for both years. Include a table caption.
 
     ```{r}
+    library(knitr)
+    library(kableExtra)
+
     vornamen_22_23 %>% 
       group_by(Vorname) %>% 
       summarize(anzahl_gesamt = sum(Anzahl)) %>% 
       arrange(desc(anzahl_gesamt)) %>% 
       head(10) %>% 
-      knitr::kable(., 
-                   caption = "Die 10 beliebtesten Vornamen in 2022 und 2023" ,
-                   col.names = c("Vorname", "Gesamtanzahl")) %>% 
-      kableExtra::kable_minimal()
+      kable(caption = "Die 10 beliebtesten Vornamen in 2022 und 2023" ,
+            col.names = c("Vorname", "Gesamtanzahl")) %>% 
+      kable_minimal()
     ```
 
 ## Exercise 4: Open Analysis (4 points)
@@ -149,17 +151,37 @@ e)  Use R to answer your chosen question.
     ```{r}
     natural_disasters %>% 
       filter(grepl("Germany", Entity)) %>% 
-      select(Year, starts_with("death")) %>% 
-      select(-matches("deaths_rate")) %>% 
-      select_if(~ any(!is.na(.))) %>% 
+      select(Year, starts_with("death")) %>% #only interested in deaths
+      select(-matches("deaths_rate")) %>% #not interested in the rate
+      select_if(~ any(!is.na(.))) %>% #exclude causes that never occur in germany
       arrange(desc(deaths_all_disasters)) %>% 
-      head(5)%>% #to put the information into perspective I include the top 5 
-      knitr::kable(., 
-                   caption = "Year with most deaths caused by natural disaster in Germany" ) %>% 
-      kableExtra::kable_minimal()
+      head(5) %>% #to put the information into perspective I include the top 5 
+      kable(
+        caption = "Year with most deaths caused by natural disaster in Germany"
+        ) %>% 
+      kable_minimal()
     ```
 
 f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
+
+    ```{r disasters, fig.cap="Deaths by natural disasters in Germany over the years"}
+    natural_disasters %>%
+      filter(grepl("Germany", Entity)) %>% #filter for Germany
+      select(-matches("deaths_rate|deaths_all")) %>%  #exclude these colums
+      filter(Year != 2003) %>% #exclude extreme
+      pivot_longer(cols = starts_with("death") , 
+                   names_to = "cause" , 
+                   values_to = "deaths" ,
+                   values_drop_na = TRUE) %>% 
+      ggplot(aes(x = Year , 
+                 y = deaths ,
+                 color = cause
+                 )) +
+      geom_point() + 
+      labs( y = "total Deaths" ,
+            color = "Cause")+
+      theme_minimal()
+    ```
 
 ## Final Note
 
