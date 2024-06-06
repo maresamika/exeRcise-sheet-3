@@ -139,7 +139,13 @@ c)  Put the name / title of the dataset and a link to it below.
 -   Link: [https://github.com/owid/owid-datasets/tree/master/datasets/Natural%20disasters%20(EMDAT)](https://github.com/owid/owid-datasets/tree/master/datasets/Natural%20disasters%20(EMDAT)){.uri}
 
 d)  Come up with a (research) question you want to answer with the data and briefly explain why you believe this is an interesting question within one sentence. It should be a question that can be answered with the dataset and using R.
+
+    Question: In which year did the most deaths by natural disasters occur in Germany, what caused them and what was the total number?
+
+    Reasoning: This information is interesting, because there were quite a lot natural disasters in recent years and knowing what cause the most deaths can be used to initiate preventative measures.
+
 e)  Use R to answer your chosen question.
+
 f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
 
 ## Final Note
