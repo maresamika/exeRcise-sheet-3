@@ -6,6 +6,12 @@ date: "`r Sys.Date()`"
 output: distill::distill_article
 ---
 
+```{r}
+library(distill)
+library(tidyverse)
+library(kableExtra)
+```
+
 ## General Remarks
 
 -   You can submit your solutions in teams of up to 3 students.
@@ -65,8 +71,6 @@ b)  Load the data for both years into R. Check the type of the count variable ("
     Names that were counted 1,2 or 3 times are now tipping the scales as they are more weighted by being set to 4 instead of the correct amount. Since we don't know the exact numbers in the first place, the repercussions for working with this data are rather little.
 
     ```{r}
-    library(tidyverse)
-
     vornamen_2022 <- read.csv(file.path('data', 'open_data_portal_2022.csv'))
     vornamen_2023 <- read.csv(file.path('data', 'vornamen-muenchen-2023.csv'))
 
@@ -109,17 +113,16 @@ e)  Combine both datasets into one using `bind_rows()`.
 f)  Combine the counts for same names to determine the most popular names across both years. Print out the top 10 names in a nicely formatted table for both years. Include a table caption.
 
     ```{r}
-    library(knitr)
-    library(kableExtra)
-
     vornamen_22_23 %>% 
       group_by(Vorname) %>% 
       summarize(anzahl_gesamt = sum(Anzahl)) %>% 
       arrange(desc(anzahl_gesamt)) %>% 
       head(10) %>% 
-      kable(caption = "Die 10 beliebtesten Vornamen in 2022 und 2023" ,
-            col.names = c("Vorname", "Gesamtanzahl")) %>% 
-      kable_minimal()
+      knitr::kable(., 
+                   caption = "Die 10 beliebtesten Vornamen in 2022 und 2023" ,
+                   format= "html" ,
+                   col.names = c("Vorname", "Gesamtanzahl")) %>% 
+      kableExtra::kable_minimal()
     ```
 
 ## Exercise 4: Open Analysis (4 points)
@@ -151,16 +154,18 @@ e)  Use R to answer your chosen question.
     ```{r}
     natural_disasters %>% 
       filter(grepl("Germany", Entity)) %>% 
-      select(Year, starts_with("death")) %>% #only interested in deaths
-      select(-matches("deaths_rate")) %>% #not interested in the rate
-      select_if(~ any(!is.na(.))) %>% #exclude causes that never occur in germany
+      select(Year ,
+             deaths_all_disasters , 
+             starts_with("death") , #only colums that contain numbers on deaths
+             -matches("deaths_rate")) %>% #exclude the death rates
       arrange(desc(deaths_all_disasters)) %>% 
-      head(5) %>% #to put the information into perspective I include the top 5 
-      kable(
-        caption = "Year with most deaths caused by natural disaster in Germany"
-        ) %>% 
-      kable_minimal()
+      head(5) %>% 
+      knitr::kable(caption = "Most deaths caused by natural disasters in Germany"
+                   ) %>%
+      kableExtra::kable_minimal()
     ```
+
+    Note on table from 4e: I don't know why it does the thing with "Table 2: Table 3" when rendering. I have no idea where it gets the input for that. Nothing i tried to fix it worked out.
 
 f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
 
@@ -178,7 +183,7 @@ f)  Create a meaningful plot / figure with the dataset. Make sure to provide a f
                  color = cause
                  )) +
       geom_point() + 
-      labs( y = "total Deaths" ,
+      labs( y = "Deaths" ,
             color = "Cause")+
       theme_minimal()
     ```
