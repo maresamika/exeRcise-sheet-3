@@ -109,8 +109,15 @@ e)  Combine both datasets into one using `bind_rows()`.
 f)  Combine the counts for same names to determine the most popular names across both years. Print out the top 10 names in a nicely formatted table for both years. Include a table caption.
 
     ```{r}
-    # not like that 
-    #vornamen_22_23 <- merge(vornamen_2022, vornamen_2023, by = "Vorname")
+    vornamen_22_23 %>% 
+      group_by(Vorname) %>% 
+      summarize(anzahl_gesamt = sum(Anzahl)) %>% 
+      arrange(desc(anzahl_gesamt)) %>% 
+      head(10) %>% 
+      knitr::kable(., 
+                   caption = "Die 10 beliebtesten Vornamen in 2022 und 2023" ,
+                   col.names = c("Vorname", "Gesamtanzahl")) %>% 
+      kableExtra::kable_minimal()
     ```
 
 ## Exercise 4: Open Analysis (4 points)
@@ -118,11 +125,16 @@ f)  Combine the counts for same names to determine the most popular names across
 This exercise is a bit more open-ended. You can choose any dataset from [Our World in Data](https://ourworldindata.org/) and analyze it, while determining the research question yourself.
 
 a)  Go to <https://github.com/owid/owid-datasets/tree/master/datasets> and choose a dataset that interests you. You can have a look at <https://ourworldindata.org/> to gather some inspiration.
+
 b)  Download the dataset and track it in git.
+
+    ```{r}
+    natural_disasters <- read.csv(file.path('data', 'Natural disasters (EMDAT).csv'))
+    ```
+
 c)  Put the name / title of the dataset and a link to it below.
 
 -   Dataset Name: ...
--   Link: <https://github.com/owid/owid-datasets/>...
 
 d)  Come up with a (research) question you want to answer with the data and briefly explain why you believe this is an interesting question within one sentence. It should be a question that can be answered with the dataset and using R.
 e)  Use R to answer your chosen question.
