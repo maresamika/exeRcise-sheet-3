@@ -146,6 +146,19 @@ d)  Come up with a (research) question you want to answer with the data and brie
 
 e)  Use R to answer your chosen question.
 
+    ```{r}
+    natural_disasters %>% 
+      filter(grepl("Germany", Entity)) %>% 
+      select(Year, starts_with("death")) %>% 
+      select(-matches("deaths_rate")) %>% 
+      select_if(~ any(!is.na(.))) %>% 
+      arrange(desc(deaths_all_disasters)) %>% 
+      head(5)%>% #to put the information into perspective I include the top 5 
+      knitr::kable(., 
+                   caption = "Year with most deaths caused by natural disaster in Germany" ) %>% 
+      kableExtra::kable_minimal()
+    ```
+
 f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
 
 ## Final Note
