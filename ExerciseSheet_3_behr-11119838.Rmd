@@ -134,7 +134,9 @@ b)  Download the dataset and track it in git.
 
 c)  Put the name / title of the dataset and a link to it below.
 
--   Dataset Name: ...
+-   Dataset Name: Natural Disasters (EMDAT)
+
+-   Link: [https://github.com/owid/owid-datasets/tree/master/datasets/Natural%20disasters%20(EMDAT)](https://github.com/owid/owid-datasets/tree/master/datasets/Natural%20disasters%20(EMDAT)){.uri}
 
 d)  Come up with a (research) question you want to answer with the data and briefly explain why you believe this is an interesting question within one sentence. It should be a question that can be answered with the dataset and using R.
 e)  Use R to answer your chosen question.
